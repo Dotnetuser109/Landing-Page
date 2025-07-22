@@ -2,60 +2,102 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Razorpay Payment Integration</title>
+  <title>Responsive Razorpay Payment</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Razorpay -->
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
   <style>
     body {
-      font-family: Arial;
-      padding: 20px;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', sans-serif;
     }
-    input {
-      display: block;
-      margin-bottom: 10px;
-      padding: 8px;
-      width: 300px;
+    .payment-card {
+      background-color: #fff;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 500px;
+      animation: slideIn 0.6s ease;
     }
-    button {
-      padding: 10px 20px;
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .form-floating label {
+      color: #6c757d;
+    }
+    .btn-custom {
       background-color: #528FF0;
-      color: white;
       border: none;
-      cursor: pointer;
+      border-radius: 10px;
+    }
+    .btn-custom:hover {
+      background-color: #417ee2;
     }
   </style>
 </head>
 <body>
 
-  <h2>Make a Payment</h2>
+  <div class="container px-3">
+    <div class="payment-card mx-auto">
+      <h3 class="text-center text-primary mb-4">Make a Secure Payment</h3>
 
-  <input type="text" id="name" placeholder="Enter your name" required />
-  <input type="text" id="mobile" placeholder="Enter mobile number" required />
-  <input type="email" id="email" placeholder="Enter email address" required />
-  <input type="number" id="amount" placeholder="Enter amount (INR)" required />
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="name" placeholder="Full Name">
+        <label for="name">Full Name</label>
+      </div>
 
-  <button onclick="payNow()">Pay with Razorpay</button>
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="mobile" placeholder="Mobile Number">
+        <label for="mobile">Mobile Number</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input type="email" class="form-control" id="email" placeholder="Email">
+        <label for="email">Email address</label>
+      </div>
+
+      <div class="form-floating mb-4">
+        <input type="number" class="form-control" id="amount" placeholder="Amount">
+        <label for="amount">Amount (INR)</label>
+      </div>
+
+      <div class="d-grid">
+        <button class="btn btn-custom btn-lg" onclick="payNow()">Pay with Razorpay</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     function payNow() {
       var name = document.getElementById("name").value;
       var mobile = document.getElementById("mobile").value;
       var email = document.getElementById("email").value;
-      var amount = document.getElementById("amount").value * 100; // In paise
+      var amount = document.getElementById("amount").value * 100;
 
       if (!name || !mobile || !email || !amount) {
-        alert("Please fill all fields.");
+        alert("Please fill all the fields.");
         return;
       }
 
       var options = {
-        "key": "rzp_test_knPmLCTXshYywt", // Replace with LIVE key when needed
+        "key": "rzp_test_knPmLCTXshYywt", // Replace with your LIVE key
         "amount": amount,
         "currency": "INR",
         "name": name,
-        "description": "Test Transaction",
+        "description": "Payment for Course",
         "image": "https://ashish8076.netlify.app/ashishimage.jpg",
         "handler": function (response) {
-          // On successful payment
           window.location.href = "success.html";
         },
         "prefill": {
@@ -64,12 +106,11 @@
           "contact": mobile
         },
         "theme": {
-          "color": "#3399cc"
+          "color": "#528FF0"
         },
         "modal": {
           "ondismiss": function () {
-            // Triggered when user closes the popup or payment fails
-            alert("Payment Failed or Cancelled.");
+            alert("Payment cancelled.");
           }
         }
       };
