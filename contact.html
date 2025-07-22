@@ -115,23 +115,27 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						</form>
 
  <script>
-        document.getElementById("queryForm").addEventListener("submit", function (e) {
-            e.preventDefault();
+    document.getElementById("queryForm").addEventListener("submit", function (e) {
+        e.preventDefault();
 
-            // Get input values
-            var name = document.getElementById("name").value.trim();
-            var email = document.getElementById("email").value.trim();
-            var phone = document.getElementById("phone").value.trim();
-            var message = document.getElementById("message").value.trim();
+        // Get input values
+        var name = document.getElementById("name").value.trim();
+        var email = document.getElementById("email").value.trim();
+        var phone = document.getElementById("phone").value.trim();
+        var message = document.getElementById("message").value.trim();
 
-            var text = "Name: " + name + "Email: " + email+ "phone: " + phone + "Reason for Contact: " + message;
+        // Format text with line breaks
+        var text = "Name: " + name + "%0A" +
+                   "Email: " + email + "%0A" +
+                   "Phone: " + phone + "%0A" +
+                   "Reason for Contact: " + message;
 
-            var phoneNumber = "918076870112";
+        var phoneNumber = "918076870112";
 
-            // Redirect to WhatsApp
-            window.open("https://wa.me/" + phoneNumber + "?text=" + text, "_blank");
-        });
-    </script>
+        window.open("https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(text), "_blank");
+    });
+</script>
+
 
 
 
